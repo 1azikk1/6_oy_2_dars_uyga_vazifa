@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 1.2em;
+            color: #333;
+        }
+        input {
+            width: 100px;
+            padding: 5px;
+            font-size: 1em;
+            margin: 10px 0;
+            text-align: center;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 1em;
+            margin-top: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .countdown {
+            font-size: 2em;
+            margin-top: 20px;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Countdown Timer</h1>
+        <p>Soniyada vaqt kiriting:</p>
+        <input type="number" id="timeInput" placeholder="Masalan: 10" min="1">
+        <button onclick="startCountdown()">Boshlash</button>
+        <div class="countdown" id="countdown">00:00</div>
+    </div>
+
+    <script>
+        let countdownInterval;
+
+        function startCountdown() {
+            const timeInput = document.getElementById("timeInput");
+            let time = parseInt(timeInput.value);
+
+            if (isNaN(time) || time <= 0) {
+                alert("Iltimos, to'g'ri son kiriting!");
+                return;
+            }
+
+            clearInterval(countdownInterval); // Avvalgi taymerni to'xtatish
+            updateDisplay(time);
+
+            countdownInterval = setInterval(() => {
+                time--;
+                if (time <= 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById("countdown").textContent = "Taymer tugadi!";
+                } else {
+                    updateDisplay(time);
+                }
+            }, 1000);
+        }
+
+        function updateDisplay(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            const formattedTime = `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+            document.getElementById("countdown").textContent = formattedTime;
+        }
+    </script>
+</body>
+</html>

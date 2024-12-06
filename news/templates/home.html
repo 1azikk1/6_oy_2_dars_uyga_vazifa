@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mavjud Viewlar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            position: relative; /* Watermarkni joylashtirish uchun */
+        }
+
+        /* Matnli watermark */
+        body::after {
+            content: 'Watermark Text'; /* Watermark matnini yozing */
+            font-size: 5em;
+            color: rgba(0, 0, 0, 0.1); /* Shaffof rang */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;  /* Watermark ustiga bosish mumkin emas */
+            z-index: -1;  /* Orqada qolishi uchun */
+        }
+
+        h3 {
+            color: #333;
+            font-size: 1.6em;
+            margin-bottom: 20px;
+        }
+        .view-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .view-item {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 8px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .view-item:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .view-item a {
+            color: white;
+            text-decoration: none;
+            pointer-events: none;
+            user-select: none;
+        }
+        .view-item span {
+            font-weight: bold;
+        }
+        .view-item:active {
+            background-color: #004085;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h3 style="user-select: none;">Mavjud Viewlar</h3>
+        <ul class="view-list">
+            <li class="view-item"><a href="#calculator"><span>1. Calculator</span> - Kalkulyator dasturi</a></li>
+            <li class="view-item"><a href="#clock"><span>2. Clock</span> - Soat dasturi</a></li>
+            <li class="view-item"><a href="#countdown"><span>3. Countdown</span> - Vaqtni orqaga sanash</a></li>
+            <li class="view-item"><a href="#weather"><span>4. Weather</span> - Ob-havo dasturi</a></li>
+            <li class="view-item"><a href="#game"><span>5. Game</span> - Tic-Tac-Toe o'yini</a></li>
+            <li class="view-item"><a href="#drawing"><span>6. Drawing</span> - Rasm chizish dasturi</a></li>
+            <li class="view-item"><a href="#currency"><span>7. Currency</span> - Pul ayirboshlash dasturi</a></li>
+            <li class="view-item"><a href="#registration"><span>8. Registration</span> - Ro'yhatdan o'tish</a></li>
+            <li class="view-item"><a href="#bar"><span>9. Progress Bar</span> - Progress bar</a></li>
+            <li class="view-item"><a href="#quiz"><span>10. Quiz</span> - Quiz dasturi</a></li>
+        </ul>
+    </div>
+
+    <script>
+        const viewItems = document.querySelectorAll('.view-item');
+
+        // Hover effect to increase item size and background change
+        viewItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = "scale(1.05)";
+                item.style.transition = "transform 0.3s ease";
+            });
+
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = "scale(1)";
+            });
+        });
+    </script>
+
+</body>
+</html>

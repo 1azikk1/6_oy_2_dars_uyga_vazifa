@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+        }
+        .container {
+            text-align: center;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+            margin: 20px auto;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            font-weight: bold;
+            background: #ffffff;
+            border: 2px solid #000;
+            cursor: pointer;
+        }
+        .cell.disabled {
+            pointer-events: none;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="status">O'yinchi X boshlaydi!</h2>
+        <div class="board" id="board">
+            <!-- Bo'sh uyalar avtomatik generatsiya qilinadi -->
+        </div>
+        <button onclick="resetGame()">Qayta boshlash</button>
+    </div>
+
+    <script>
+        const board = document.getElementById("board");
+        const statusText = document.getElementById("status");
+        let currentPlayer = "X"; // X boshlaydi
+        let gameActive = true;
+        let gameState = Array(9).fill(""); // 9 ta bo'sh joy
+
+        // G'alaba kombinatsiyalari
+        const winningConditions = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        // O'yin maydonini generatsiya qilish
+        function createBoard() {
+            board.innerHTML = "";
+            gameState.forEach((_, index) => {
+                const cell = document.createElement("div");
+                cell.classList.add("cell");
+                cell.setAttribute("data-index", index);
+                cell.addEventListener("click", handleCellClick);
+                board.appendChild(cell);
+            });
+        }
+
+        // Hucrani bosish funksiyasi
+        function handleCellClick(event) {
+            const cell = event.target;
+            const index = cell.getAttribute("data-index");
+
+            if (gameState[index] !== "" || !gameActive) return;
+
+            gameState[index] = currentPlayer;
+            cell.textContent = currentPlayer;
+            cell.classList.add("disabled");
+
+            if (checkWinner()) {
+                statusText.textContent = `G'olib: O'yinchi ${currentPlayer}!`;
+                gameActive = false;
+                return;
+            }
+
+            if (!gameState.includes("")) {
+                statusText.textContent = "Durrang! O'yin tugadi!";
+                gameActive = false;
+                return;
+            }
+
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+            statusText.textContent = `O'yinchi ${currentPlayer} navbati!`;
+        }
+
+        // G'alabani tekshirish funksiyasi
+        function checkWinner() {
+            return winningConditions.some(condition => {
+                const [a, b, c] = condition;
+                return (
+                    gameState[a] === currentPlayer &&
+                    gameState[a] === gameState[b] &&
+                    gameState[a] === gameState[c]
+                );
+            });
+        }
+
+        // O'yinni qayta boshlash
+        function resetGame() {
+            currentPlayer = "X";
+            gameActive = true;
+            gameState = Array(9).fill("");
+            statusText.textContent = "O'yinchi X boshlaydi!";
+            createBoard();
+        }
+
+        // O'yin boshida taxtani yarating
+        createBoard();
+    </script>
+</body>
+</html>

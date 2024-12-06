@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+        }
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+        input, select, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            font-size: 1em;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Currency Converter</h1>
+        <input type="number" id="amount" placeholder="Summani kiriting" min="1">
+        <select id="fromCurrency">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="UZS">UZS</option>
+        </select>
+        <select id="toCurrency">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="UZS">UZS</option>
+        </select>
+        <button onclick="convertCurrency()">Konvertatsiya qilish</button>
+        <div class="result" id="result">
+            <!-- Natija bu yerda ko'rinadi -->
+        </div>
+    </div>
+
+    <script>
+        // Valyuta kurslari (tasodifiy ma'lumotlar)
+        const exchangeRates = {
+            USD: { USD: 1, EUR: 0.92, UZS: 11500 },
+            EUR: { USD: 1.09, EUR: 1, UZS: 12500 },
+            UZS: { USD: 0.000087, EUR: 0.00008, UZS: 1 }
+        };
+
+        // Konvertatsiya funksiyasi
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById("amount").value);
+            const fromCurrency = document.getElementById("fromCurrency").value;
+            const toCurrency = document.getElementById("toCurrency").value;
+            const resultDiv = document.getElementById("result");
+
+            if (isNaN(amount) || amount <= 0) {
+                resultDiv.textContent = "Iltimos, to'g'ri summa kiriting!";
+                resultDiv.style.color = "red";
+                return;
+            }
+
+            const rate = exchangeRates[fromCurrency][toCurrency];
+            const convertedAmount = (amount * rate).toFixed(2);
+
+            resultDiv.textContent = `${amount} ${fromCurrency} = ${convertedAmount} ${toCurrency}`;
+            resultDiv.style.color = "green";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+        }
+        .registration-form {
+            width: 300px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .registration-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .registration-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .registration-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .registration-form button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-form">
+        <h2>Register</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="registerUser()">Register</button>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        function registerUser() {
+            const username = document.getElementById("username").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const messageDiv = document.getElementById("message");
+
+            // Form tekshiruvlari
+            if (!username) {
+                messageDiv.textContent = "Username bo‘sh bo‘lmasligi kerak!";
+                messageDiv.className = "message error";
+                return;
+            }
+            if (!email || !email.includes("@")) {
+                messageDiv.textContent = "Emailni to‘g‘ri kiriting!";
+                messageDiv.className = "message error";
+                return;
+            }
+            if (password.length < 6) {
+                messageDiv.textContent = "Parol kamida 6 ta belgidan iborat bo‘lishi kerak!";
+                messageDiv.className = "message error";
+                return;
+            }
+
+            // Muvaffaqiyatli ro‘yxatdan o‘tish
+            messageDiv.textContent = `Xush kelibsiz, ${username}! Ro'yxatdan muvaffaqiyatli o'tdingiz.`;
+            messageDiv.className = "message success";
+
+            // Formani tozalash
+            document.getElementById("username").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
+        }
+    </script>
+</body>
+</html>

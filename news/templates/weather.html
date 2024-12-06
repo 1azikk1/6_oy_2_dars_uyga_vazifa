@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+        }
+        .weather-app {
+            text-align: center;
+            background: #fff;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .result p {
+            margin: 5px 0;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-app">
+        <h1>Weather App</h1>
+        <input type="text" id="cityInput" placeholder="Shahar nomini kiriting">
+        <button onclick="getWeather()">Ob-havoni bilish</button>
+        <div class="result" id="weatherResult">
+            <!-- Natijalar bu yerda ko'rinadi -->
+        </div>
+    </div>
+
+    <script>
+        // API kalitini shu yerga joylashtiring
+        const apiKey = "e979135dfed559df721f6b8c765f8481";
+
+        async function getWeather() {
+            const city = document.getElementById("cityInput").value;
+            const resultDiv = document.getElementById("weatherResult");
+
+            // Shahar nomi kiritilmagan bo'lsa, xabar chiqarish
+            if (!city) {
+                alert("Iltimos, shahar nomini kiriting!");
+                return;
+            }
+
+            try {
+                // API so'rovini yuborish
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`);
+
+                // Agar so'rov muvaffaqiyatli bo'lmasa, xatolik yuborish
+                if (!response.ok) {
+                    throw new Error("Shahar topilmadi!");
+                }
+
+                // API'dan ma'lumotlarni olish
+                const data = await response.json();
+                const { name, main, weather } = data;
+
+                // Natijalarni ekranda ko'rsatish
+                resultDiv.innerHTML = `
+                    <p><strong>Shahar:</strong> ${name}</p>
+                    <p><strong>Harorat:</strong> ${main.temp}°C</p>
+                    <p><strong>Ob-havo:</strong> ${weather[0].description}</p>
+                `;
+            } catch (error) {
+                // Xatolik yuzaga kelsa, ekranda xatolikni ko'rsatish
+                resultDiv.innerHTML = `<p style="color: red;">Xatolik: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
